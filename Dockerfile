@@ -25,7 +25,7 @@ COPY . .
 # Copt the frontend build into the expected folder
 COPY --from=build-frontend /build/dist ./frontend/dist
 
-RUN CGO_ENABLED=0 go build -buildvcs=false -o ./bin/go-vite ./main.go
+RUN CGO_ENABLED=0 ENV=prod go build -buildvcs=false -o ./bin/go-vite ./main.go
 
 FROM alpine:3.14
 
