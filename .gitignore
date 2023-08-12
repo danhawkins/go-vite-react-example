@@ -1,0 +1,6 @@
+/tmp
+/build
+/bin
+/dist
+
+/.env
