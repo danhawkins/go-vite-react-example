@@ -85,4 +85,4 @@ func setupDevProxy(e *echo.Echo) {
 
 Run `make dev` to start the vite dev server and air for the golang server, changes in the frontend app will now be reflected immediatly.
 
-**IMPORTANT: The go build will faile if frontend/dist/index.html is not available, so even if you are running in dev mode, make sure to run `make build` initially to populate the folder**
+**IMPORTANT: The go build will fail if frontend/dist/index.html is not available, so even if you are running in dev mode, make sure to run `make build` initially to populate the folder**
