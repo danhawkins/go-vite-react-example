@@ -3,6 +3,7 @@ package frontend
 import (
 	"embed"
 	"log"
+	"net/http"
 	"net/url"
 	"os"
 
@@ -31,6 +32,22 @@ func RegisterHandlers(e *echo.Echo) {
 	// Use the static assets from the dist directory
 	e.FileFS("/", "index.html", distIndexHTML)
 	e.StaticFS("/", distDirFS)
+	// This is needed to serve the index.html file for all routes that are not /api/*
+	// neede for SPA to work when loading a specific url directly
+	e.Use(middleware.StaticWithConfig(middleware.StaticConfig{
+		Skipper: func(c echo.Context) bool {
+			// Skip the proxy if the prefix is /api
+			return len(c.Path()) >= 4 && c.Path()[:4] == "/api"
+		},
+		// Root directory from where the static content is served.
+		Root: "/",
+		// Enable HTML5 mode by forwarding all not-found requests to root so that
+		// SPA (single-page application) can handle the routing.
+		HTML5:      true,
+		Browse:     false,
+		IgnoreBase: true,
+		Filesystem: http.FS(distDirFS),
+	}))
 }
 
 func setupDevProxy(e *echo.Echo) {
